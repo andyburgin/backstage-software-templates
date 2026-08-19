@@ -1,0 +1,22 @@
+replicaCount: 1
+image:
+  repository: andyburgin/${{values.app_name}}
+  pullPolicy: IfNotPresent
+  tag: ${{values.app_name}}-${{values.app_env}}-latest
+service:
+  type: ClusterIP
+  port: 5000
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: ${{values.app_name}}-${{values.app_env}}.test.com
+      paths:
+        - path: /
+          pathType: Prefix
+serviceAccount:
+  create: false
+httpRoute:
+  enabled: false
+autoscaling:
+  enabled: false
