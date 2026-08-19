@@ -19,7 +19,7 @@ spec:
           type: string
           description: Provide a component (microservice) name
           pattern: '^[a-zA-Z][a-zA-Z0-9]*)(-[a-zA-Z0-9]+)*$'
-        environment
+        environment:
           title: Environment
           type: string
           description: The Environment where this component will be deployed
