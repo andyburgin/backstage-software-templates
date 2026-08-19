@@ -42,7 +42,7 @@ spec:
       action: publish:github
       input:
         allowedHosts:
-          - github,.com
+          - github.com
         description: This is ${{ parameters.component_id }}
         repoUrl: github.com?owner=andyburgin&repo=${{ parameters.component_id }}
         protectDefaultBranch: false
