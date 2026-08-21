@@ -66,11 +66,11 @@ jobs:
           # add repo to argo if not present
           argocd repo list \
           | grep -q 'https://github.com/andyburgin-org/${{values.app_name}}.git' \
-          || argocd add repo https://github.com/andyburgin-org/${{values.app_name}}.git
+          || argocd repo add https://github.com/andyburgin-org/${{values.app_name}}.git
 
           # create app if not present
           argocd app get ${{values.app_name}} \
-          || argocd create app ${{values.app_name}} \
+          || argocd app create ${{values.app_name}} \
           -- repo https://github.com/andyburgin-org/${{values.app_name}}.git
           --path charts/${{values.app_name}} \
           --dest-namespace ${{values.app_env}}\
