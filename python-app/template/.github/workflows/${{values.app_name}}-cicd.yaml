@@ -79,17 +79,6 @@ jobs:
             --revision main \
             --sync-policy manual \
             --sync-option CreateNamespace=true \
-            --loglevel debug
-
-          #|| argocd app create ${{values.app_name}} \
-          #--repo https://github.com/andyburgin-org/${{values.app_name}}.git \
-          #--path charts/${{values.app_name}} \
-          #--dest-namespace ${{values.app_env}}\
-          #--dest-server https://kubernetes.default.svc \
-          #--values values-${{values.app_env}}.yaml \
-          #--revision main \
-          #--sync-policy manual \
-          #--sync-option CreateNamespace=true
 
           argocd app sync ${{values.app_name}}
 
