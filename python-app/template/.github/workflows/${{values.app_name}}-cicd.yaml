@@ -58,9 +58,29 @@ jobs:
           chmod a+x argocd
           sudo mv ./argocd /usr/local/bin/argocd
       -
-        name: Argocd app sync
+        name: Add Argocd repo, app and sync
         shell: bash
         run: |
           argocd login argocd-server.argocd --insecure --grpc-web --username ${{'${{ secrets.ARGOCD_USERNAME }}'}} --password ${{'${{ secrets.ARGOCD_PASSWORD}}'}}
+          
+          # add repo to argo if not present
+          argocd repo list \
+          | grep -q 'https://github.com/andyburgin-org/${{values.app_name}}.git' \
+          || argocd add https://github.com/andyburgin-org/${{values.app_name}}.git
+
+          # create app if not present
+          argocd app get ${{values.app_name}} \
+          || argocd create app ${{values.app_name}} \
+          -- repo https://github.com/andyburgin-org/${{values.app_name}}.git
+          --path charts/${{values.app_name}} \
+          --dest-namespace ${{values.app_env}}\
+          --dest-server https://kubernetes.default.svc \
+          --values values-${{values.app_env}}.yaml \
+          --revision main \
+          --sync-policy manual \
+          --sync-option CreateNamespace=true
+
           argocd app sync ${{values.app_name}}
+
+          argoce app wait ${{values.app_name}} --timeout 180
 
