@@ -82,5 +82,5 @@ jobs:
 
           argocd app sync ${{values.app_name}}
 
-          argoce app wait ${{values.app_name}} --timeout 180
+          argocd app wait ${{values.app_name}} --timeout 180
 
